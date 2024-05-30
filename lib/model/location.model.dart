@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Location {
+class Locations {
   int id;
   String name;
   String type;
@@ -9,7 +9,7 @@ class Location {
   String url;
   DateTime created;
 
-  Location({
+  Locations({
     required this.id,
     required this.name,
     required this.type,
@@ -19,11 +19,11 @@ class Location {
     required this.created,
   });
 
-  factory Location.fromJson(String str) => Location.fromMap(json.decode(str));
+  factory Locations.fromJson(String str) => Locations.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Location.fromMap(Map<String, dynamic> json) => Location(
+  factory Locations.fromMap(Map<String, dynamic> json) => Locations(
         id: json["id"],
         name: json["name"],
         type: json["type"],

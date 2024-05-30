@@ -2,40 +2,41 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:rick_morty_app/model/character.model.dart';
-import 'package:rick_morty_app/model/episode.model.dart';
 
-Future<Character> getCharacters() async {
-  const url = 'https://rickandmortyapi.com/api/character';
+const String baseUrl = 'https://rickandmortyapi.com/api/';
 
-  final response = await http.get(Uri.parse(url));
+Future<List<Character>> getCharacters() async {
+  final response = await http.get(Uri.parse('$baseUrl/character'));
 
-  try {
-    return Character.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    throw Exception('Erro ao obter os personagens!');
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> decodedData = jsonDecode(response.body);
+    final List<dynamic> results = decodedData['results'];
+    return results.map((json) => Character.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load characters');
   }
 }
 
-Future<Location> getLocations() async {
-  const url = 'https://rickandmortyapi.com/api/location';
+//Future<List<Locations>> getLocations() async {
+//  final response = await http.get(Uri.parse('$baseUrl/location'));
+//
+//  if (response.statusCode == 200) {
+//    final Map<String, dynamic> decodedData = jsonDecode(response.body);
+//    final List<dynamic> results = decodedData['results'];
+//    return results.map((json) => Locations.fromJson(json)).toList();
+//  } else {
+//    throw Exception('Failed to load locations');
+//  }
+//}
 
-  final response = await http.get(Uri.parse(url));
-
-  try {
-    return Location.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    throw Exception('Erro ao obter localizações!');
-  }
-}
-
-Future<Episode> getEpisodes() async {
-  const url = 'https://rickandmortyapi.com/api/episode';
-
-  final response = await http.get(Uri.parse(url));
-
-  try {
-    return Episode.fromJson(jsonDecode(response.body));
-  } catch (e) {
-    throw Exception('Erro ao obter os episódios!');
-  }
-}
+//Future<List<Episode>> getEpisodes() async {
+//  final response = await http.get(Uri.parse('$baseUrl/episode'));
+//
+//  if (response.statusCode == 200) {
+//    final Map<String, dynamic> decodedData = jsonDecode(response.body);
+//    final List<dynamic> results = decodedData['results'];
+//    return results.map((json) => Episode.fromJson(json)).toList();
+//  } else {
+//    throw Exception('Failed to load episodes');
+//  }
+//}
